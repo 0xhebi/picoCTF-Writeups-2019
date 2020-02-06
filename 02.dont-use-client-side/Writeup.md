@@ -18,7 +18,6 @@ If we view source or just inspect body of the html file, we can see this script.
                   }
                 }
               }
-      
             }
           }
         }
@@ -33,13 +32,14 @@ If we view source or just inspect body of the html file, we can see this script.
 So let's sort of reverse engineer this one.So we can see that string is being cut using variable split as an argument.We are going to order this from lowest to highest split number that is getting multiplied.  
 
 <code>
-    (checkpass.substring(0, split) == 'pico')  
-(checkpass.substring(split, split*2) == 'CTF{')
- (checkpass.substring(split*2, split*3) == 'no_c')
-(checkpass.substring(split*3, split*4) == 'lien')
-(checkpass.substring(split*4, split*5) == 'ts_p')
-(checkpass.substring(split*5, split*6) == 'lz_4')
-(checkpass.substring(split*7, split*8) == '3}')  
-</code>  
+(checkpass.substring(0, split) == 'pico')<br>
+(checkpass.substring(split, split*2) == 'CTF{')<br>
+(checkpass.substring(split*2, split*3) == 'no_c')<br>
+(checkpass.substring(split*3, split*4) == 'lien')<br>
+(checkpass.substring(split*4, split*5) == 'ts_p')<br>
+(checkpass.substring(split*5, split*6) == 'lz_4')<br>
+(checkpass.substring(split*7, split*8) == '3}')
 
+</code>  
+<br>
 <b>FLAG : picoCTF{no_clients_plz_43}</b>
