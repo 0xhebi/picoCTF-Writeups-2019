@@ -29,7 +29,7 @@ If we view source or just inspect body of the html file, we can see this script.
   }
   </code>
 
-So let's sort of reverse engineer this one.So we can see that string is being cut using variable split as an argument.We are going to order this from lowest to highest split number that is getting multiplied.
+So let's sort of reverse engineer this one.So we can see that string is being cut using variable split as an argument.We are going to order this from lowest to highest split number that is getting multiplied.<br>
 
 <code>
 (checkpass.substring(0, split) == 'pico')<br>
@@ -39,7 +39,7 @@ So let's sort of reverse engineer this one.So we can see that string is being cu
 (checkpass.substring(split*4, split*5) == 'ts_p')<br>
 (checkpass.substring(split*5, split*6) == 'lz_4')<br>
 (checkpass.substring(split*7, split*8) == '3}')
-
 </code>
+
 <br>
 <b>FLAG : picoCTF{no_clients_plz_43}</b>
