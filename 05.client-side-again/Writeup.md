@@ -16,10 +16,6 @@ After doing that we get more readable code :
 /** @type {!Array} */
 var _0x5a46 = ["55670}", "_again_0", "this", "Password Verified", "Incorrect password", "getElementById", "value", "substring", "picoCTF{", "not_this"];
 (function(data, i) {
-  /**
-   * @param {number} isLE
-   * @return {undefined}
-   */
   var write = function(isLE) {
     for (; --isLE;) {
       data["push"](data["shift"]());
@@ -27,23 +23,13 @@ var _0x5a46 = ["55670}", "_again_0", "this", "Password Verified", "Incorrect pas
   };
   write(++i);
 })(_0x5a46, 435);
-/**
- * @param {string} level
- * @param {?} ai_test
- * @return {?}
- */
 var _0x4b5b = function(level, ai_test) {
-  /** @type {number} */
   level = level - 0;
   var rowsOfColumns = _0x5a46[level];
   return rowsOfColumns;
 };
-/**
- * @return {undefined}
- */
 function verify() {
   checkpass = document[_0x4b5b("0x0")]("pass")[_0x4b5b("0x1")];
-  /** @type {number} */
   split = 4;
   if (checkpass[_0x4b5b("0x2")](0, split * 2) == _0x4b5b("0x3")) {
     if (checkpass[_0x4b5b("0x2")](7, 9) == "{n") {
