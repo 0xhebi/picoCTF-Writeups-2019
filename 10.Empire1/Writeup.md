@@ -1,0 +1,1 @@
+<blockquote><i>Psst, Agent 513, now that you're an employee of Evil Empire Co., try to get their secrets off the company website. https://2019shell1.picoctf.com/problem/27357/ (link) Can you first find the secret code they assigned to you? or http://2019shell1.picoctf.com:27357</i></blockquote>
