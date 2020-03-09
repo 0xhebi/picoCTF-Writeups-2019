@@ -20,4 +20,7 @@ So i had to determine in what framework the server was written. From previous pi
 ```  
 So we do see that user_id value is 3.<br>
 Have in mind <br><quote>Flask, by default, uses the URL-safe signed serializer "itsdangerous" to encode its client-side session cookies. A Flask app uses a secret key to sign the session cookie so that the client can't modify it.</quote><br>  
-Which means if we could spoof the secret key we would be able to modify the cookie by swapping the value to 1 which would be admin value , and get the session cookie for admin.
+Which means if we could spoof the secret key we would be able to modify the cookie by swapping the value to 1 which would be admin value , and get the session cookie for admin.  
+
+So I've registered account with some random name and then you can see the multiple pages as a user.You see Employees listing,Add todo ,Your todos.  
+Empoyees listing was interesting because it looks like a typical SQL table , 3 columns with fields Employee id, Username, Name.<br> Then in Add Todo we have a input field where we can input some text and that is going into list on the page Your Todos.
