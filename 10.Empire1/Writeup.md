@@ -39,6 +39,11 @@ That was very weird and i had to realize what is being filtered out.
 I've tried doing '+ 12 +' which evaluated into 12.So i've tried simple expression '+ 1 + 2  +' which evaluated into 3. Which was pretty nice.<br> I was getting somewhere with that.   
 
 After that i tried taking it step further and making query so i tried '+ SELECT +' and that crashed. So i realized that those words must be filtered and i wanted to try query inside of parantheses . <br>  
-so i've tried '+ (SELECT 1) +' and that evaluated to 1. From that point i determined that i can do queries.
+So i've tried '+ (SELECT 1) +' and that evaluated to 1. From that point i determined that i can do queries.  
+
+From that point I had to enumerate what engine of sql is running on so i can focus on injecting payload for that type of SQL. There are various functions for certain type of engine to get the version info. The one that worked was '+ <code>sqlite_version()</code> +' that returned me the 3.22 which confirmed it is SQLite engine.  
+
+Now we have to try to get info of our database , specifically table and columns etc.
+
  
 
