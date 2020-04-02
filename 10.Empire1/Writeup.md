@@ -39,11 +39,34 @@ That was very weird and i had to realize what is being filtered out.
 I've tried doing '+ 12 +' which evaluated into 12.So i've tried simple expression '+ 1 + 2  +' which evaluated into 3. Which was pretty nice.<br> I was getting somewhere with that.   
 
 After that i tried taking it step further and making query so i tried '+ SELECT +' and that crashed. So i realized that those words must be filtered and i wanted to try query inside of parantheses . <br>  
-So i've tried '+ (SELECT 1) +' and that evaluated to 1. From that point i determined that i can do queries.  
+So i've tried '+ (SELECT 1) +' and that evaluated to 1. From that point i determined that i can do <b>queries</b>.  
 
-From that point I had to enumerate what engine of sql is running on so i can focus on injecting payload for that type of SQL. There are various functions for certain type of engine to get the version info. The one that worked was '+ <code>sqlite_version()</code> +' that returned me the 3.22 which confirmed it is SQLite engine.  
+Next I would have to enumerate what engine of sql is running on so I can focus on injecting payload for that type of SQL. There are various functions for certain type of engine to get the version info. The one that worked was '+ <code>sqlite_version()</code> +' that returned me the 3.22 which confirmed it is SQLite engine.  
 
 Now we have to try to get info of our database , specifically table and columns etc.
 
- 
+There are some interesting methods that could give you information that you are looking for, like:  
 
+PRAGMA functions 
+
+sqlite_master as main db  
+
+So first thing i wanted to know is the name of the table.  
+
+<code> '+ (SELECT hex(name) FROM sqlite_master) +'</code>
+<br>
+<br>
+With this you can extract table name by using hex value for name parameter,this resulted in 75736572 which is <b>"user"</b>. <br>Good so far we have name of our table.
+<br>
+After that i wanted to to extract the name of columns , most likely trying to find something like password or similar column name.  
+
+<br>  
+The straight away i tried checking if there is column with name of password or secret by doing :  
+<br>
+<code>'+(SELECT 1 FROM PRAGMA_TABLE_INFO("user") WHERE name="secret") +'</code><br>  
+Which actually returned 1 (password returned 0) and that was pretty positive for knowing that the column with name secret exist which should mean that should be column for user passwords.Now remember the part of the hint <q><i>"Can you first find the secret code they assigned to you?<i></q><br>Let's try that : <br>  
+<code> '+(select hex(secret) from user where name="asd") +'</code>  
+<br>  
+Not surprisingly that returned us 7069636 converted to ASCII  = "pic" <br>  
+Which obviously part of the flag because we know that flag is starting with picoCTF{...}  
+Very interesting..
