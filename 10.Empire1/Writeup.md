@@ -67,6 +67,19 @@ The straight away i tried checking if there is column with name of password or s
 Which actually returned 1 (password returned 0) and that was pretty positive for knowing that the column with name secret exist which should mean that should be column for user passwords.Now remember the part of the hint <q><i>"Can you first find the secret code they assigned to you?<i></q><br>Let's try that : <br>  
 <code> '+(select hex(secret) from user where name="asd") +'</code>  
 <br>  
-Not surprisingly that returned us 7069636 converted to ASCII  = "pic" <br>  
-Which obviously part of the flag because we know that flag is starting with picoCTF{...}  
-Very interesting..
+Not surprisingly that returned us 7069636 converted to ASCII (as 70696306)  = "pic\x06" <br>  
+Which seems like the part of the flag because we know that flag is starting with picoCTF{...}  
+Very interesting..  
+
+But there is one more detail in here.Starting with the question why are we only getting 3.5 letter flag is usually longer.<br>  
+2 conclusions arrives :  
+<li>characters are getting truncuted a-f as hexadecimal digit</li>
+<li>number is 32 bit integer truncated</li>
+
+So how do we work around this? Substring for number truncation,we get only 1 digit number at a time that means it is truncated , 2 digit number it's not truncated,only above 8 digit number gets truncated.  
+So we are definitely going to make a script for generating requests and collecting the output digits.  
+<br>  
+Our request payload should have query like this :<br>
+<code>'+ (SELECT hex(substr(secret,0,1))  FROM user where id="3") +'</code>  
+
+The idea is to make request till i reach reach number 0 as an output which would indicate that the value ends there. Once i collect all the hexadecimal digits,the single digits should be compared with (a,b,c,d,e,f) and one of those could give me missing part of the whole flag.
