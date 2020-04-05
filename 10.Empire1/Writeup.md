@@ -84,7 +84,7 @@ Our request payload should have query like this :<br>
 
 The idea is to make request till i reach reach number 0 as an output which would indicate that the value ends there. Once i collect all the hexadecimal digits,the single digits should be compared with (a,b,c,d,e,f) and one of those could give me missing part of the whole flag.
 
-So I've made a <a href=https://github.com/DejanJS/picoCTF-Writeups-2019/blob/master/10.Empire1/script.py">script</a> that will do this for us.
+So I've made a <a href="https://github.com/DejanJS/picoCTF-Writeups-2019/blob/master/10.Empire1/script.py">script</a> that will do this for us.
 
 Let's explain what is going on in this script:  
 
