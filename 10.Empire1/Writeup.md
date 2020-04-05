@@ -86,4 +86,27 @@ The idea is to make request till i reach reach number 0 as an output which would
 
 So I've made a <a href=https://github.com/DejanJS/picoCTF-Writeups-2019/blob/master/10.Empire1/script.py">script</a> that will do this for us.
 
-Let's explain what is going on in this script.
+Let's explain what is going on in this script:  
+
+You are going to need some scraping library , I've used Beautiful Soup,since response that we need is being generated inside of the other page and csrf token is binded to input field, so you have to keep session alive.  
+
+```python  
+
+import requests
+import json
+from bs4 import BeautifulSoup
+import string
+
+i = 0
+result = []
+a_to_f = [w for w in string.ascii_lowercase[:6]]
+my_session = requests.Session()
+register = my_session.get('https://2019shell1.picoctf.com/problem/27357/login')
+soup = BeautifulSoup(register.text,'html.parser')
+csrf = soup.find(id="csrf_token").get('value')
+
+login = my_session.post('https://2019shell1.picoctf.com/problem/27357/login',data={'csrf_token':csrf,'username':'e','password':123})
+item_list = my_session.get('https://2019shell1.picoctf.com/problem/27357/list_items')
+soup2 = BeautifulSoup(item_list.text,'html.parser')
+items = [ item.next_sibling.strip('  \n\t') for item in soup2.find_all('strong')]  
+```
