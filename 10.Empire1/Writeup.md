@@ -27,10 +27,9 @@ Which means if we could spoof the secret key we would be able to modify the cook
 <p>So I've registered account with some random name and then you can see the multiple pages as a user.You see Employees listing,Add todo ,Your todos.  
 Empoyees listing was interesting because it looks like a typical SQL table , 3 columns with fields Employee id, Username, Name.<br> Then in Add Todo we have a input field where we can input some text and that is going into list on the page Your Todos.
 <br><br>
-First I've tried testing the input simply with providing <b>ASCII alphabet</b> you can either google or just make this one liner in python :</p><br>
+First I've tried testing the input simply with providing <b>ASCII alphabet</b> you can either google or just make this one liner in python :</p></br>
 <code>"".join(chr(x) for x in range(32,127))</code>
-
-<p>That instantly crashed and gave me internal server 500 error.<br>After that I tried all upper and lowercase letters from A-Z. Which didn't show any strange behaviour. However when I tried single quotes ' and other math logical operators and some of them crashed again.  
+<p>That instantly crashed and gave me internal server 500 error.</br>After that I tried all upper and lowercase letters from A-Z. Which didn't show any strange behaviour. However when I tried single quotes ' and other math logical operators and some of them crashed again.  
 <br>
 I've tried simple classic SQL injection for authentication OR 1 '=' 1 which weirdly evaluated to 0. <br>
 That was very weird and i had to realize what is being filtered out.</p>  
@@ -49,15 +48,14 @@ sqlite_master as main schema holder.</p>
 
 <p>So first thing i wanted to know is the name of the table.</p>  
 <code> '+ (SELECT hex(name) FROM sqlite_master) +'</code>
-<br>
+</br>
 <p>With this you can extract table name by using hex value for name parameter,this resulted in 75736572 which is <b>"user"</b>. <br>Good so far we have name of our table.
 <br>
 After that i wanted to to extract the name of columns , most likely trying to find something like password or similar column name.</p>  
-
-<br>  
+</br>  
 <p>The straight away i tried checking if there is column with name of password or secret by doing :</p>  
-<br>
-<code>'+(SELECT 1 FROM PRAGMA_TABLE_INFO("user") WHERE name="secret") +'</code><br>  
+</br>
+<code>'+(SELECT 1 FROM PRAGMA_TABLE_INFO("user") WHERE name="secret") +'</code></br>  
 <p>Which actually returned 1 (password returned 0) and that was pretty positive for knowing that the column with name secret exist which should mean that should be column for user passwords.Now remember the part of the hint <q><i>"Can you first find the secret code they assigned to you?</i></q><br>Let's try that : <br>  
 <code> '+(select hex(secret) from user where name="asd") +'</code> </p> 
 <br>  
