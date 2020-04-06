@@ -40,7 +40,7 @@ That was very weird and i had to realize what is being filtered out.</p>
 
 <p>I've tried doing '+ 12 +' which evaluated into 12.So i've tried simple expression '+ 1 + 2  +' which evaluated into 3. Which was pretty nice.<br> I was getting somewhere with that.</p>   
 
-<p>After that i tried taking it step further and making query so i tried '+ SELECT +' and that crashed. So i realized that those words must be filtered and i wanted to try query inside of parantheses . <br>  
+<p>After that I tried taking it step further and making query so i tried '+ SELECT +' and that crashed. So i realized that those words must be filtered and i wanted to try query inside of parantheses . <br>  
 So i've tried '+ (SELECT 1) +' and that evaluated to 1. From that point i determined that i can do <b>queries</b>.</p>  
 
 <p>Next I would have to enumerate what engine of sql is running on so I can focus on injecting payload for that type of SQL. There are various functions for certain type of engine to get the version info. The one that worked was '+ <code>sqlite_version()</code> +' that returned me the 3.22 which confirmed it is SQLite engine. </p> 
@@ -50,10 +50,8 @@ So i've tried '+ (SELECT 1) +' and that evaluated to 1. From that point i determ
 <p>There are some interesting methods that could give you information that you are looking for, like:PRAGMA functions, 
 sqlite_master as main schema holder.</p> 
 
-So first thing i wanted to know is the name of the table.</p>  
-
+<p>So first thing i wanted to know is the name of the table.</p>  
 <code> '+ (SELECT hex(name) FROM sqlite_master) +'</code>
-<br>
 <br>
 <p>With this you can extract table name by using hex value for name parameter,this resulted in 75736572 which is <b>"user"</b>. <br>Good so far we have name of our table.
 <br>
@@ -75,7 +73,7 @@ But there is one more detail in here.Starting with the question why are we only 
 <li>characters are getting truncuted a-f as hexadecimal digit</li>
 <li>number is 32 bit integer truncated</li>
 
-So how do we work around this? Substring for number truncation,we get only 1 digit number at a time that means it is truncated , 2 digit number it's not truncated,only above 8 digit number gets truncated(we got only 7 digits from our .  
+So how do we work around this? Substring for number truncation,we get only 1 digit number at a time that means it is truncated , 2 digit number it's not truncated,only above 8 digit number gets truncated(we got only 7 digits from our secret).  
 So we are definitely going to make a script for generating requests and collecting the output digits.  
 <br>  
 Our request payload should have query like this :<br>
@@ -126,7 +124,7 @@ while True:
 ```  
 
 At the end we have to go through results and loop over possible values of hexadecimals digits , but the best way is to make post once again by substringing and comparing each letter that we already got other possible letters as hexadecimals that we got(which means if we make something like <code>'+ (SELECT (substr(secret,4,1)='o') FROM user where id='3') </code><br>  ,for example)
-Response for correct letter is going to be 1 and 0 for non existant .  
+Response for correct letter is going to be 1 and 0 for non existent .  
 ```python  
 if len(result) > 0:
     for idx,res in enumerate(result):
