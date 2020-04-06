@@ -1,14 +1,16 @@
+<h3>Challenge #10 Empire1</h3>
+
 <blockquote><i>Psst, Agent 513, now that you're an employee of Evil Empire Co., try to get their secrets off the company website. https://2019shell1.picoctf.com/problem/27357/ (link) Can you first find the secret code they assigned to you? or http://2019shell1.picoctf.com:27357</i></blockquote>  
 
-In this challenge we have a site with login and register form.  
+<p>In this challenge we have a site with login and register form.</p>  
 
-First things first I inspected the page to see if there is any hidden login logic in some form of script,which wasn't the case.After creating a user and logging in I've caught one thing.The session cookie looked quite odd: 
+<p>First things first I inspected the page to see if there is any hidden login logic in some form of script,which wasn't the case.After creating a user and logging in I've caught one thing.The session cookie looked quite odd: </p>
 
 ```javascript
 session=.eJwlj0FqQzEMRO_idRayJEt2LvORZYmGQAv_J6vSu8fQWb95zPyWI8-4vsr9db7jVo7HKveCHTAqM7r6cFhdIeoO2-i0eA6UEUnihrMFk5upSGJl9UWQMmf20Rc1arAWmyaw6OC6Teg5g5XSWptrRjRMbyYA5hvZEiq34teZx-vnGd97jxNn776BUWVgtypNOhFNNVimwO48XXbvfcX5f4LK3wdBOT5K.XmPcqA.dDQLm8QVYSADCJMay9b9Rh3dpc0
 ```
 
-So i had to determine in what framework the server was written. From previous picoCTF's i guessed with Flask. So I've tried decoding the cookie. And I was right since this JSON object was result of it.  
+<p>So I had to determine in what framework the server was written. From previous picoCTF's i guessed with Flask. So I've tried decoding the cookie. And I was right since this JSON object was result of it.</p>  
 
 ```javascript  
 {
@@ -18,54 +20,51 @@ So i had to determine in what framework the server was written. From previous pi
     "user_id": "3"
 }  
 ```  
-So we do see that user_id value is 3.<br>
-Have in mind <br><quote>Flask, by default, uses the URL-safe signed serializer "itsdangerous" to encode its client-side session cookies. A Flask app uses a secret key to sign the session cookie so that the client can't modify it.</quote><br>  
-Which means if we could spoof the secret key we would be able to modify the cookie by swapping the value to 1 which would be admin value , and get the session cookie for admin.  
+<p>So we do see that user_id value is 3.</p><br>
+<p>Have in mind<quote>Flask, by default, uses the URL-safe signed serializer "itsdangerous" to encode its client-side session cookies. A Flask app uses a secret key to sign the session cookie so that the client can't modify it.</quote><br>  
+Which means if we could spoof the secret key we would be able to modify the cookie by swapping the value to 1 which would be admin value , and get the session cookie for admin.</p>  
 
-So I've registered account with some random name and then you can see the multiple pages as a user.You see Employees listing,Add todo ,Your todos.  
+<p>So I've registered account with some random name and then you can see the multiple pages as a user.You see Employees listing,Add todo ,Your todos.  
 Empoyees listing was interesting because it looks like a typical SQL table , 3 columns with fields Employee id, Username, Name.<br> Then in Add Todo we have a input field where we can input some text and that is going into list on the page Your Todos.
 <br><br>
-First I've tried testing the input simply with providing <b>ASCII alphabet</b> you can either google or just make this one liner in python :<br>
+First I've tried testing the input simply with providing <b>ASCII alphabet</b> you can either google or just make this one liner in python :</p><br>
 <br>
 ```python
 "".join(chr(x) for x in range(32,127))
 ```
 
-That instantly crashed and gave me internal server 500 error.<br>After that I tried all upper and lowercase letters from A-Z. Which didn't show any strange behaviour. However when I tried single quotes ' and other math logical operators and some of them crashed again.  
+<p>That instantly crashed and gave me internal server 500 error.<br>After that I tried all upper and lowercase letters from A-Z. Which didn't show any strange behaviour. However when I tried single quotes ' and other math logical operators and some of them crashed again.  
 <br>
 I've tried simple classic SQL injection for authentication OR 1 '=' 1 which weirdly evaluated to 0. <br>
-That was very weird and i had to realize what is being filtered out.  
+That was very weird and i had to realize what is being filtered out.</p>  
 
-I've tried doing '+ 12 +' which evaluated into 12.So i've tried simple expression '+ 1 + 2  +' which evaluated into 3. Which was pretty nice.<br> I was getting somewhere with that.   
+<p>I've tried doing '+ 12 +' which evaluated into 12.So i've tried simple expression '+ 1 + 2  +' which evaluated into 3. Which was pretty nice.<br> I was getting somewhere with that.</p>   
 
-After that i tried taking it step further and making query so i tried '+ SELECT +' and that crashed. So i realized that those words must be filtered and i wanted to try query inside of parantheses . <br>  
-So i've tried '+ (SELECT 1) +' and that evaluated to 1. From that point i determined that i can do <b>queries</b>.  
+<p>After that i tried taking it step further and making query so i tried '+ SELECT +' and that crashed. So i realized that those words must be filtered and i wanted to try query inside of parantheses . <br>  
+So i've tried '+ (SELECT 1) +' and that evaluated to 1. From that point i determined that i can do <b>queries</b>.</p>  
 
-Next I would have to enumerate what engine of sql is running on so I can focus on injecting payload for that type of SQL. There are various functions for certain type of engine to get the version info. The one that worked was '+ <code>sqlite_version()</code> +' that returned me the 3.22 which confirmed it is SQLite engine.  
+<p>Next I would have to enumerate what engine of sql is running on so I can focus on injecting payload for that type of SQL. There are various functions for certain type of engine to get the version info. The one that worked was '+ <code>sqlite_version()</code> +' that returned me the 3.22 which confirmed it is SQLite engine. </p> 
 
-Now we have to try to get info of our database , specifically table and columns etc.
+<p>Now we have to try to get info of our database , specifically table and columns etc.</p>
 
-There are some interesting methods that could give you information that you are looking for, like:  
+<p>There are some interesting methods that could give you information that you are looking for, like:PRAGMA functions, 
+sqlite_master as main schema holder.</p> 
 
-PRAGMA functions 
-
-sqlite_master as main db  
-
-So first thing i wanted to know is the name of the table.  
+So first thing i wanted to know is the name of the table.</p>  
 
 <code> '+ (SELECT hex(name) FROM sqlite_master) +'</code>
 <br>
 <br>
-With this you can extract table name by using hex value for name parameter,this resulted in 75736572 which is <b>"user"</b>. <br>Good so far we have name of our table.
+<p>With this you can extract table name by using hex value for name parameter,this resulted in 75736572 which is <b>"user"</b>. <br>Good so far we have name of our table.
 <br>
-After that i wanted to to extract the name of columns , most likely trying to find something like password or similar column name.  
+After that i wanted to to extract the name of columns , most likely trying to find something like password or similar column name.</p>  
 
 <br>  
-The straight away i tried checking if there is column with name of password or secret by doing :  
+<p>The straight away i tried checking if there is column with name of password or secret by doing :</p>  
 <br>
 <code>'+(SELECT 1 FROM PRAGMA_TABLE_INFO("user") WHERE name="secret") +'</code><br>  
-Which actually returned 1 (password returned 0) and that was pretty positive for knowing that the column with name secret exist which should mean that should be column for user passwords.Now remember the part of the hint <q><i>"Can you first find the secret code they assigned to you?</i></q><br>Let's try that : <br>  
-<code> '+(select hex(secret) from user where name="asd") +'</code>  
+<p>Which actually returned 1 (password returned 0) and that was pretty positive for knowing that the column with name secret exist which should mean that should be column for user passwords.Now remember the part of the hint <q><i>"Can you first find the secret code they assigned to you?</i></q><br>Let's try that : <br>  
+<code> '+(select hex(secret) from user where name="asd") +'</code> </p> 
 <br>  
 Not surprisingly that returned us 7069636 converted to ASCII (as 7069636)  = "pic" <br>  
 Which seems like the part of the flag because we know that flag is starting with picoCTF{...}  
@@ -82,11 +81,11 @@ So we are definitely going to make a script for generating requests and collecti
 Our request payload should have query like this :<br>
 <code>'+ (SELECT hex(substr(secret,0,1))  FROM user where id="3") +'</code>  
 
-The idea is to make request till i reach reach number 0 as an output which would indicate that the value ends there. Once i collect all the hexadecimal digits,the single digits should be compared with (a,b,c,d,e,f) and one of those could give me missing part of the whole flag.
+<p>The idea is to make request till i reach reach number 0 as an output which would indicate that the value ends there. Once i collect all the hexadecimal digits,the single digits should be compared with (a,b,c,d,e,f) and one of those could give me missing part of the whole flag.</p>
 
-So I've made a <a href="https://github.com/DejanJS/picoCTF-Writeups-2019/blob/master/10.Empire1/script.py">script</a> that will do this for us.
+<p>So I've made a <a href="https://github.com/DejanJS/picoCTF-Writeups-2019/blob/master/10.Empire1/script.py">script</a> that will do this for us.</p>
 
-Let's explain what is going on in this script:  
+<p>Let's explain what is going on in this script:</p>  
 
 You are going to need some scraping library , I've used Beautiful Soup,since response that we need is being generated inside of the other page and csrf token is binded to input field, so you have to keep session alive.  
 
