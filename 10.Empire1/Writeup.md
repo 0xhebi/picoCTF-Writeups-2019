@@ -20,7 +20,7 @@ session=.eJwlj0FqQzEMRO_idRayJEt2LvORZYmGQAv_J6vSu8fQWb95zPyWI8-4vsr9db7jVo7HKve
     "user_id": "3"
 }  
 ```  
-<p>So we do see that user_id value is 3.</p><br>
+<p>So we do see that user_id value is 3.</p></br>
 <p>Have in mind<quote>Flask, by default, uses the URL-safe signed serializer "itsdangerous" to encode its client-side session cookies. A Flask app uses a secret key to sign the session cookie so that the client can't modify it.</quote><br>  
 Which means if we could spoof the secret key we would be able to modify the cookie by swapping the value to 1 which would be admin value , and get the session cookie for admin.</p>  
 
@@ -28,7 +28,7 @@ Which means if we could spoof the secret key we would be able to modify the cook
 Empoyees listing was interesting because it looks like a typical SQL table , 3 columns with fields Employee id, Username, Name.<br> Then in Add Todo we have a input field where we can input some text and that is going into list on the page Your Todos.
 <br><br>
 First I've tried testing the input simply with providing <b>ASCII alphabet</b> you can either google or just make this one liner in python :</p></br>
-<code>"".join(chr(x) for x in range(32,127))</code>
+<code>"".join(chr(x) for x in range(32,127))</code><br></br>
 <p>That instantly crashed and gave me internal server 500 error.</br>After that I tried all upper and lowercase letters from A-Z. Which didn't show any strange behaviour. However when I tried single quotes ' and other math logical operators and some of them crashed again.  
 <br>
 I've tried simple classic SQL injection for authentication OR 1 '=' 1 which weirdly evaluated to 0. <br>
