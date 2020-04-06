@@ -28,11 +28,11 @@ Which means if we could spoof the secret key we would be able to modify the cook
 Empoyees listing was interesting because it looks like a typical SQL table , 3 columns with fields Employee id, Username, Name.<br> Then in Add Todo we have a input field where we can input some text and that is going into list on the page Your Todos.
 <br><br>
 First I've tried testing the input simply with providing <b>ASCII alphabet</b> you can either google or just make this one liner in python :</p><br>
-<br>
 ```python
-"".join(chr(x) for x in range(32,127))
-```
 
+"".join(chr(x) for x in range(32,127))
+
+```
 <p>That instantly crashed and gave me internal server 500 error.<br>After that I tried all upper and lowercase letters from A-Z. Which didn't show any strange behaviour. However when I tried single quotes ' and other math logical operators and some of them crashed again.  
 <br>
 I've tried simple classic SQL injection for authentication OR 1 '=' 1 which weirdly evaluated to 0. <br>
