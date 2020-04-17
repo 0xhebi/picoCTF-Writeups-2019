@@ -25,7 +25,7 @@ I've tried inspecting the page to see if there is any additional script that wil
 Nothing seemed pretty unusual , except this hidden input with debug an value 0 was kinda weird.<br>I've tried inserting some random input as start that will return me login failed.I was inspecting the request to see if there is anything interesting. Nothing seemed really weird so i tried testing other input.I've used <a href="https://portswigger.net/burp">Burpsuite</a> for inspecting my requests.First thing that I see was that my request payload is being sent as <code>password:&debug:0</code>
 I've tried to change the debug value of 1 to see what is going to happen.  
   
-![Alt_text]('https://github.com/DejanJS/picoCTF-Writeups-2019/blob/master/11.Irish-Name-Repo-3/ss1.png')
+![Alt_text](https://github.com/DejanJS/picoCTF-Writeups-2019/blob/master/11.Irish-Name-Repo-3/ss1.png)
 
 So this showed us the query that is happening on the server side. <br>
 Now I only have to check how is the input being filtered and try to bypass it.
