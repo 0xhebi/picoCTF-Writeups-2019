@@ -30,3 +30,4 @@ So in this challenge we have just a page with input and submit button.If we view
 				return false;
 			}
 ```
+<br>We can see that there is some logic for displaying an png image here.So let's investigate what is going on.
