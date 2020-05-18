@@ -5,3 +5,10 @@ Here we have Empire2, with same website.Create a user and login as in Empire 1.<
 And we got this :
 
 ![Alt_text](https://github.com/DejanJS/picoCTF-Writeups-2019/blob/master/14.Empire2/ss2.png)
+
+I was trying to expose the secret key and hoping the flag is there but that flag wasn't the real one. So I've looked around a little bit and saw that session cookie seem quite odd. From SSTI i knew this application was running on Flask so i tried using Flask cookie decoder.
+
+![Alt_text](https://github.com/DejanJS/picoCTF-Writeups-2019/blob/master/14.Empire2/ss.png)
+
+<br>
+And we got our flag :<br> <b>FLAG : picoCTF{its_a_me_your_flag0994faa6} </b>
