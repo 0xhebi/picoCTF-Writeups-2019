@@ -31,7 +31,7 @@ So this showed us the query that is happening on the server side. <br>
 Now I only have to check how is the input being filtered and try to bypass it.  
   
 Started simple with <code>OR '1'='1'</code> which resulted into <code>SQL query: SELECT * FROM admin where password = 'BE '1'='1''</code> <br>
-Which means this is some Cipher that is shifting to right by 14.  
+Which means this is some Cipher that is shifting to right by 13.(ROT13)  
 <br>Since i had to escape the single quote at the end as well i did <code>'BE 1--</code>  
 And I got my flag  
 <br><b>FLAG : picoCTF{3v3n_m0r3_SQL_ef7eac2f}</b>
