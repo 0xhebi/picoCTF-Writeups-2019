@@ -30,4 +30,8 @@ So in this challenge we have just a page with input and submit button.If we view
 				return false;
 			}
 ```
-<br>We can see that there is some logic for displaying an png image here.So let's investigate what is going on.<br>We have get request for "bytes" which is in this case array with length of 720. Our assemble_png function has default key with 16 characters.
+<br>We can see that there is some logic for displaying an png image here.<br>We have get request for "bytes" which is in this case array with length of 720. Our assemble_png function has default key with 16 characters. We are supposed to provide key through an input with length of 16 and try to generate correct array of bytes which will represent an image of png format. By doing some research i came across <a href="http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html">PNG file structure</a> in docs which has some interesting stuff there. The thing that is important is : <br>
+<quote>The first eight bytes of a PNG file always contain the following (decimal) values:
+
+   137 80 78 71 13 10 26 10
+This signature indicates that the remainder of the file contains a single PNG image, consisting of a series of chunks beginning with an IHDR chunk and ending with an IEND chunk.</quote>
