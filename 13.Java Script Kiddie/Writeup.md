@@ -35,3 +35,4 @@ So in this challenge we have just a page with input and submit button.If we view
 
    137 80 78 71 13 10 26 10
 This signature indicates that the remainder of the file contains a single PNG image, consisting of a series of chunks beginning with an IHDR chunk and ending with an IEND chunk.</blockquote>
+Which means those numbers are header or to put it this way , the script above is basically algorithm that takes key of 16 chars input that will generate array of image bytes and then decode it to base64 which will represent image.  
