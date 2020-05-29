@@ -34,5 +34,8 @@ So in this challenge we have just a page with input and submit button.If we view
 <blockquote>The first eight bytes of a PNG file always contain the following (decimal) values:
 
    137 80 78 71 13 10 26 10
-This signature indicates that the remainder of the file contains a single PNG image, consisting of a series of chunks beginning with an IHDR chunk and ending with an IEND chunk.</blockquote>
-Which means those numbers are header or to put it this way , the script above is basically algorithm that takes key of 16 chars input that will generate array of image bytes and then decode it to base64 which will represent image.  
+This signature indicates that the remainder of the file contains a single PNG image, consisting of a series of chunks beginning with an IHDR chunk and ending with an IEND chunk.</blockquote><br>
+This image will give us better insight :<br>
+![alt_text](https://github.com/DejanJS/picoCTF-Writeups-2019/blob/master/13.Java%20Script%20Kiddie/file-structure.png)
+<br>
+The script above is basically algorithm that takes key of 16 chars input that will generate array of image bytes and then decode it to base64 which will represent image.  
