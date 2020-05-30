@@ -38,4 +38,5 @@ This signature indicates that the remainder of the file contains a single PNG im
 This image will give us better insight :<br>
 ![alt_text](https://github.com/DejanJS/picoCTF-Writeups-2019/blob/master/13.Java%20Script%20Kiddie/file-structure.png)
 <br>
-The script above is basically algorithm that takes key of 16 chars input that will generate array of image bytes and then decode it to base64 which will represent image.  
+The script above is basically algorithm that takes key of 16 chars input that will generate array of image bytes and then decode it to base64 which will represent image.<br>
+So from all of that research I came to conclusion that our result array has to start with png signature and to end with IEND.So we will have to get the right key that will search for index in a bytes array (where our bytes for png are)    
