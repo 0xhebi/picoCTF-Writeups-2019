@@ -11,10 +11,9 @@ document.cookie
 ```
 <br> Ok I can see the value is base64 so let's decode this.<br>
 ```python
-   
 import base64
 cookie = 'TzoxMToicGVybWlzc2lvbnMiOjI6e3M6ODoidXNlcm5hbWUiO3M6NToiZ3Vlc3QiO3M6ODoicGFzc3dvcmQiO3M6NToiZ3Vlc3QiO30='
-
-print(base64.b64decode(cookie)) # b'O:11:"permissions":2:{s:8:"username";s:5:"guest";s:8:"password";s:5:"guest";}' ```
+print(base64.b64decode(cookie)) # b'O:11:"permissions":2:{s:8:"username";s:5:"guest";s:8:"password";s:5:"guest";}'
+ ```
 
 <br> So...we have serialized array, from there I've tried changing username to admin and password to admin and encoding it back to base64 but unfortunately that didn't work.
