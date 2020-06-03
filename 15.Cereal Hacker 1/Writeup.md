@@ -18,4 +18,7 @@ cookie = 'TzoxMToicGVybWlzc2lvbnMiOjI6e3M6ODoidXNlcm5hbWUiO3M6NToiZ3Vlc3QiO3M6OD
 print(base64.b64decode(cookie)) # b'O:11:"permissions":2:{s:8:"username";s:5:"guest";s:8:"password";s:5:"guest";}'
  ```
 
-<br> So...we have serialized array, from there I've tried changing username to admin and password to admin and encoding it back to base64 but unfortunately that didn't work.
+<br> So...we have serialized array, from there I've tried changing username to admin and password to admin and encoding it back to base64 but unfortunately that didn't work. So the thing that I can try is , bruteforcing username and password with some SQL injection payload. So I made a script that will do this to me. I will explain shortly how it works,check the script <a href="https://github.com/DejanJS/picoCTF-Writeups-2019/blob/master/15.Cereal%20Hacker%201/script.py">here</a> btw.<br>
+So first thing is that we are going to take cookie and decode it and convert it into a string, then we will open file with our SQL injection payload I've used auth.txt from <a href="https://github.com/swisskyrepo/PayloadsAllTheThings">Payload All things</a> we will basically loop over each payload replace it in our cookie value string , and encode it back to b64 as encoded utf-8 and the decode utf-8 to get proper value for a cookie , make request for each generated cookie with sql injection payload.<br>
+And after I started the script we've got the flag. Payload that worked was <blockquote>O:11:"permissions":2:{s:8:"username";s:8:"admin' #";s:8:"password";s:0:"";}<br>admin' #"</blockquote><br>
+<b>FLAG : picoCTF{3fba6964d680deb73b38b7f2916df7d5}</b>
