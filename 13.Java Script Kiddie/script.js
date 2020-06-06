@@ -27,7 +27,6 @@ function generate_poss_values(){
   var indexes_len = indexes.length;
   let obj = {}
   let png_ihdr = [...png_signature,...ihdr].map(x => String(x)) // so i can have object keys as strings 
-  console.log("indexes_len",indexes_len)
   for(var i = 0;i < indexes_len;i++){
     let valz = indexes[i][png_ihdr[i]];
     for(let j in valz){
@@ -42,7 +41,6 @@ function generate_poss_values(){
  console.log("object with index key position in bytes array",obj) //
  return obj
 }
-//generate_keys()
 
 function gen_key_chars(){
 
