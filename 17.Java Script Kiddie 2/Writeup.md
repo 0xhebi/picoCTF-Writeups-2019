@@ -1,0 +1,2 @@
+<h3>Challenge #13 Java Script Kiddie 2</h3>
+<blockquote>The image link appears broken... twice as badly... https://2019shell1.picoctf.com/problem/12281 or http://2019shell1.picoctf.com:12281</blockquote>
