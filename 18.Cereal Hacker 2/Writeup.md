@@ -153,3 +153,5 @@ if(isset($_COOKIE['user_info'])){
 
 ?>
 ```
+So here we have our db logic query, we can see that there is an old permission class that we were using in previous challenge but we can see siteuser class now . The difference is that siteuser class is not using prepared for sanitization , since there are two classes we can still exploit that siteuser. And it is still using unserialize, <a href="https://owasp.org/www-community/vulnerabilities/PHP_Object_Injection">unserialize exploit.</a>
+So this is going to be error-based / blind sql injection. We can make script for this and try to match password by checking character by character , if the character of password that we are trying to guess is right one we should get Welcome to admin page if not it should give us You are not an admin page.Check the <a href="">script</a>. 
