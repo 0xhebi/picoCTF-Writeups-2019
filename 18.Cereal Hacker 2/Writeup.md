@@ -154,4 +154,7 @@ if(isset($_COOKIE['user_info'])){
 ?>
 ```
 So here we have our db logic query, we can see that there is an old permission class that we were using in previous challenge but we can see siteuser class now . The difference is that siteuser class is not using prepared for sanitization , since there are two classes we can still exploit that siteuser. And it is still using unserialize, <a href="https://owasp.org/www-community/vulnerabilities/PHP_Object_Injection">unserialize exploit.</a>
-So this is going to be error-based / blind sql injection. We can make script for this and try to match password by checking character by character , if the character of password that we are trying to guess is right one we should get Welcome to admin page if not it should give us You are not an admin page.Check the <a href="">script</a>. 
+So this is going to be error-based / blind sql injection. We can make script for this and try to match password by checking character by character , if the character of password that we are trying to guess is right one we should get Welcome to admin page if not it should give us You are not an admin page.Check the <a href="">script</a>.<br>
+Using <code>' or password like BINARY ' = "c%"</code> is going to check if the password is checking with character that we are trying to guess and if it does we are gonna concat it and provide that character as the first and so on till we get the flag. 
+
+<b>FLAG : picoCTF{c9f6ad462c6bb64a53c6e7a6452a6eb7} </b>
