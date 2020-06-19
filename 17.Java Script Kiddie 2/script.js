@@ -68,7 +68,7 @@ function gen_keys(obj){
 
 function loop(arr,curr=""){
  if(Array.isArray(arr) && arr.length === 0){
-   curr = curr.split("").join("0") + "0" // every odd should be a number that we care about , even doesn't matter it is just to full lenght of 32 for key
+   curr = curr.split("").join("0") + "0" // every odd should be a number that we care about , even doesn't matter it is just to fill length of 32 for key
    console.log("possible key : ",curr)
    return
  }
