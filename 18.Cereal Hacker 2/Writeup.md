@@ -1,5 +1,5 @@
 <h3>Challenge #18 Cereal Hacker 2</h3>
-<blockquote>Get the admin's password. https://2019shell1.picoctf.com/problem/62195/ or http://2019shell1.picoctf.com:62195</blockquote>
+<blockquote><i>Get the admin's password. https://2019shell1.picoctf.com/problem/62195/ or http://2019shell1.picoctf.com:62195</i></blockquote>
 
 Same login page as in Cereal Hacker 1.<br>I could have use some of the pentesting tools for scanning vulnerabilities , but I was doing this manually. I started for searching for LFI/RFI and to access for example <code>../../../../etc/passwd</code>. <br>The file wasn't found but i saw that it is appending .php extension at the end as a message. So that means we can actually get to the local files ,or the inclusion was done by using most likely require_once php method. One of the solutions to get to certain file was using <code>php://filter/convert.base64_encode/resource</code> . With this I am able to see any php file that is out there by outputing b64 , before it's being used by require_once method. <br> So first I tried with <blockquote>https://2019shell1.picoctf.com/problem/62195/index.php?file=php://filter/convert.base64-encode/resource=admin</blockquote>
 <br>
